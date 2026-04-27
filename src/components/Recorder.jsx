@@ -167,20 +167,22 @@ const Recorder = ({ targetLang }) => {
         </div>
       </main>
 
-      <div className="wave-container">
-        {[...Array(9)].map((_, i) => {
-          const height = isRecording 
-            ? 4 + (audioLevel * (1 - Math.abs(i - 4) / 5) * 0.8)
-            : 6;
-          return (
-            <div 
-              key={i} 
-              className={`wave-bar ${isRecording ? 'active' : ''}`}
-              style={{ height: `${Math.min(24, height)}px` }}
-            />
-          );
-        })}
-      </div>
+      {isRecording && (
+        <div className="wave-container">
+          {[...Array(5)].map((_, i) => {
+            // Center (index 2) is 1.0, sides are 0.6 and 0.3
+            const scale = 1 - Math.abs(i - 2) * 0.3;
+            const height = 4 + (audioLevel * scale * 0.8);
+            return (
+              <div 
+                key={i} 
+                className="wave-bar active" 
+                style={{ height: `${Math.min(24, height)}px` }}
+              />
+            );
+          })}
+        </div>
+      )}
 
       <div className="bottom-controls">
         {!isRecording ? (
